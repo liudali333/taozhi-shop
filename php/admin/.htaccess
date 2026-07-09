@@ -1,4 +1,0 @@
-<IfModule mod_php.c>
-    php_value session.save_path "/www/server/php/session/taozhi"
-    php_value session.cookie_path "/"
-</IfModule>
