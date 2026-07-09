@@ -1,5 +1,0 @@
-# 允许直接访问 .uploads 目录下的图片
-<FilesMatch "\.(jpg|jpeg|png|gif|webp)$">
-    Allow from all
-    Cache-Control max-age=31536000
-</FilesMatch>
