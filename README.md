@@ -162,15 +162,7 @@ const amapWebKey = '你的高德 Web 服务 Key';
 
 ---
 
-## 项目截图
 
-> 请替换为实际截图
-
-| 首页 | 商品详情 | 购物车 | 个人中心 |
-|------|----------|--------|----------|
-| ![](screenshots/home.png) | ![](screenshots/product.png) | ![](screenshots/cart.png) | ![](screenshots/my.png) |
-
----
 
 ## 注意事项
 
