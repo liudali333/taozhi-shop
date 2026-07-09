@@ -1,0 +1,97 @@
+<view class="my-page">
+  <!-- 用户信息区 -->
+  <view class="user-section">
+    <block wx:if="{{hasLogin}}">
+      <view class="user-card">
+        <button class="avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+          <view class="avatar-ring">
+            <image class="avatar" src="{{userInfo.avatar || '/images/avatar-default.png'}}" mode="aspectFill"></image>
+          </view>
+          <view class="avatar-edit">
+            <image src="/images/camera-icon.png" mode="aspectFit" class="camera-icon"></image>
+          </view>
+        </button>
+        <view class="user-text">
+          <input class="user-name-input" type="nickname" placeholder="点击设置昵称" value="{{userInfo.nickname}}" bindblur="onNicknameBlur" maxlength="20" />
+          <text class="user-hint">{{userInfo.phone || '设置头像和昵称，享专属体验'}}</text>
+        </view>
+      </view>
+    </block>
+    <view wx:else class="login-tip">
+      <image class="avatar" src="/images/avatar-default.png" mode="aspectFill"></image>
+      <view class="login-text">
+        <text class="login-title">Hi，欢迎来到桃之</text>
+        <text class="login-sub">登录后享受更多服务</text>
+      </view>
+      <button class="login-btn" bindtap="goLogin">登录</button>
+    </view>
+  </view>
+  
+  <!-- 我的订单 -->
+  <view class="order-assets">
+    <view class="order-header" bindtap="goOrder" data-type="all">
+      <text class="section-title">我的订单</text>
+      <view class="more">
+        <text>全部订单</text>
+        <image src="/images/arrow-right.png" mode="aspectFit"></image>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 资产卡片 -->
+  <view class="assets-card">
+    <view class="asset-item" bindtap="goCoupons">
+      <text class="asset-num">{{couponCount}}</text>
+      <text class="asset-label">优惠券</text>
+    </view>
+  </view>
+  
+  <!-- 功能列表 -->
+  <view class="menu-section">
+    <view class="menu-item" bindtap="goAddress">
+      <image class="menu-icon" src="/images/menu-address.png" mode="aspectFit"></image>
+      <text class="menu-text">收货地址</text>
+      <image class="arrow" src="/images/arrow-right.png" mode="aspectFit"></image>
+    </view>
+    <view class="menu-item" bindtap="goDelivery">
+      <image class="menu-icon" src="/images/menu-delivery.png" mode="aspectFit"></image>
+      <text class="menu-text">配送说明</text>
+      <image class="arrow" src="/images/arrow-right.png" mode="aspectFit"></image>
+    </view>
+    <view class="menu-item" bindtap="goHelp">
+      <image class="menu-icon" src="/images/menu-help.png" mode="aspectFit"></image>
+      <text class="menu-text">帮助中心</text>
+      <image class="arrow" src="/images/arrow-right.png" mode="aspectFit"></image>
+    </view>
+    <view class="menu-item" bindtap="goAbout">
+      <image class="menu-icon" src="/images/menu-about.png" mode="aspectFit"></image>
+      <text class="menu-text">关于我们</text>
+      <image class="arrow" src="/images/arrow-right.png" mode="aspectFit"></image>
+    </view>
+    <view class="menu-item" bindtap="callService">
+      <image class="menu-icon" src="/images/menu-service.png" mode="aspectFit"></image>
+      <text class="menu-text">联系客服</text>
+      <image class="arrow" src="/images/arrow-right.png" mode="aspectFit"></image>
+    </view>
+  </view>
+  
+  <!-- 昵称设置弹窗 -->
+  <view class="modal-mask" wx:if="{{showNicknameModal}}" bindtap="closeNickname"></view>
+  <view class="nickname-modal" wx:if="{{showNicknameModal}}">
+    <view class="modal-title">完善微信资料</view>
+    <view class="modal-avatar-row">
+      <button class="modal-avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+        <image class="modal-avatar" src="{{tempAvatar || userInfo.avatar || '/images/avatar-default.png'}}" mode="aspectFill"></image>
+        <text class="modal-avatar-tip">点击更换头像</text>
+      </button>
+    </view>
+    <input class="modal-name-input" type="nickname" placeholder="请输入您的昵称" value="{{inputNickname || userInfo.nickname}}" bindinput="onNicknameInput" bindblur="onNicknameBlur" maxlength="20" />
+    <view class="modal-btn-row">
+      <view class="modal-btn cancel" bindtap="closeNickname">跳过</view>
+      <view class="modal-btn confirm" bindtap="saveProfile">保存</view>
+    </view>
+  </view>
+  
+  <!-- 底部tab占位 -->
+  <view class="tab-placeholder"></view>
+</view>

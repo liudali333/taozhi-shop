@@ -1,0 +1,158 @@
+/* pages/order/order.wxss */
+.order-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.order-list {
+  padding: 20rpx;
+}
+
+.order-item {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.order-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.order-store {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.order-status {
+  font-size: 26rpx;
+}
+
+.order-status.status-pending { color: #ff9500; }
+.order-status.status-paid { color: #007aff; }
+.order-status.status-shipped { color: #5856d6; }
+.order-status.status-completed { color: #34c759; }
+.order-status.status-cancelled { color: #999; }
+
+.order-products {
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.product-item:last-child {
+  margin-bottom: 0;
+}
+
+.product-item image {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 8rpx;
+  background: #f5f5f5;
+}
+
+.p-info {
+  flex: 1;
+  margin-left: 16rpx;
+}
+
+.p-name {
+  display: block;
+  font-size: 26rpx;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.p-count {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.p-price {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.order-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+}
+
+.order-time {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.order-total {
+  display: flex;
+  align-items: center;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.total-price {
+  color: #e64340;
+  font-weight: bold;
+  margin-left: 12rpx;
+}
+
+.order-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20rpx;
+}
+
+.action-btn {
+  padding: 12rpx 32rpx;
+  border-radius: 32rpx;
+  font-size: 26rpx;
+}
+
+.btn-cancel {
+  border: 1rpx solid #ddd;
+  color: #666;
+}
+
+.btn-pay,
+.btn-confirm {
+  background: #e64340;
+  color: #fff;
+}
+
+.loading-state {
+  padding: 100rpx 0;
+  text-align: center;
+}
+
+.loading-state text {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.empty-state {
+  padding: 100rpx 0;
+  text-align: center;
+}
+
+.empty-state image {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 30rpx;
+}
+
+.empty-state text {
+  display: block;
+  font-size: 28rpx;
+  color: #999;
+}

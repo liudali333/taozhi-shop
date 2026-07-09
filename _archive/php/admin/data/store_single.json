@@ -1,0 +1,15 @@
+{
+  "id": 1,
+  "name": "桃之成人用品",
+  "address": "",
+  "phone": "",
+  "lat": 0,
+  "lng": 0,
+  "open_time": "09:00",
+  "close_time": "22:00",
+  "advance_minutes": 60,
+  "delivery_radius_km": 5,
+  "delivery_fee": 5,
+  "notice": "满59元包配送，支持匿名发货，保护您的隐私",
+  "description": ""
+}

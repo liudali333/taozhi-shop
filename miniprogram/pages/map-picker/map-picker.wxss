@@ -1,0 +1,74 @@
+.picker-map {
+  width: 100%;
+  height: 100vh;
+}
+
+.center-marker {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.marker-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 16px;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+  z-index: 200;
+}
+
+.current-addr {
+  margin-bottom: 12px;
+}
+
+.addr-label {
+  font-size: 12px;
+  color: #999;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.addr-text {
+  font-size: 14px;
+  color: #333;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-group {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-cancel, .btn-confirm {
+  flex: 1;
+  height: 44px;
+  line-height: 44px;
+  text-align: center;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+}
+
+.btn-cancel {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.btn-confirm {
+  background: #07c160;
+  color: #fff;
+}

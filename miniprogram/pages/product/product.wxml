@@ -1,0 +1,91 @@
+<view class="product-page">
+  <!-- 商品图片 -->
+  <swiper class="product-swiper" indicator-dots autoplay circular>
+    <swiper-item>
+      <image src="{{product.image}}" mode="aspectFill" class="product-main-img"></image>
+    </swiper-item>
+  </swiper>
+  
+  <!-- 价格+库存 -->
+  <view class="price-section">
+    <view class="price-left">
+      <text class="sale-price">¥{{product.sale_price}}</text>
+      <text class="orig-price" wx:if="{{product.sale_price < product.price}}">¥{{product.price}}</text>
+      <view class="discount-badge" wx:if="{{product.discountAmount > 0}}">
+        省 ¥{{product.discountAmount}}
+      </view>
+    </view>
+    <view class="stock-right">
+      <view class="stock-status {{product.stock > 0 ? 'available' : 'soldout'}}">
+        {{product.stock > 0 ? '有货' : '已售罄'}}
+      </view>
+      <text class="stock-count" wx:if="{{product.stock > 0 && product.stock <= 10}}">仅剩 {{product.stock}} 件</text>
+    </view>
+  </view>
+  
+  <!-- 商品基本信息 -->
+  <view class="product-main">
+    <view class="product-name">{{product.name}}</view>
+    <view class="product-spec" wx:if="{{product.spec}}">{{product.spec}}</view>
+    
+    <!-- 分类标签 -->
+    <view class="category-tags" wx:if="{{product.category_l1}}">
+      <text class="cat-tag">{{product.category_l1}}</text>
+      <text class="cat-sep" wx:if="{{product.category_l2}}">/</text>
+      <text class="cat-tag sub" wx:if="{{product.category_l2}}">{{product.category_l2}}</text>
+    </view>
+  </view>
+  
+  <!-- 商品属性 -->
+  <view class="info-card">
+    <view class="info-row" wx:if="{{product.spec}}">
+      <text class="info-label">规格</text>
+      <text class="info-value">{{product.spec}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">库存</text>
+      <text class="info-value {{product.stock <= 0 ? 'red' : ''}}">{{product.stock > 0 ? product.stock + ' 件' : '已售罄'}}</text>
+    </view>
+  </view>
+  
+  <!-- 商品描述（图片详情） -->
+  <view class="info-card">
+    <view class="section-title">商品详情</view>
+    <view class="desc-content" wx:if="{{detailImages.length > 0}}">
+      <image
+        wx:for="{{detailImages}}"
+        wx:key="*this"
+        src="{{item}}"
+        mode="widthFix"
+        class="detail-img"
+        lazy-load
+      ></image>
+    </view>
+    <view class="desc-content empty" wx:else>
+      <text>暂无详细描述，请联系客服了解</text>
+    </view>
+  </view>
+  
+  <!-- 底部操作 -->
+  <view class="bottom-bar safe-bottom">
+    <view class="action-icons">
+      <view class="icon-item" bindtap="goHome">
+        <image src="/images/home.png" mode="aspectFit"></image>
+        <text>首页</text>
+      </view>
+      <view class="icon-item" bindtap="goCart">
+        <image src="/images/cart.png" mode="aspectFit"></image>
+        <text>购物车</text>
+        <view class="badge" wx:if="{{cartCount > 0}}">{{cartCount > 99 ? '99+' : cartCount}}</view>
+      </view>
+    </view>
+    <view class="action-buttons">
+      <view class="btn-add-cart {{product.stock <= 0 ? 'disabled' : ''}}" bindtap="addToCart">
+        {{product.stock <= 0 ? '已售罄' : '加入购物车'}}
+      </view>
+      <view class="btn-buy-now {{product.stock <= 0 ? 'disabled' : ''}}" bindtap="buyNow">
+        立即购买
+      </view>
+    </view>
+  </view>
+</view>

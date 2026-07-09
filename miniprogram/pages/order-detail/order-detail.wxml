@@ -1,0 +1,220 @@
+﻿<view class="detail-page">
+  <!-- 加载中 -->
+  <view class="loading-state" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <block wx:elif="{{order}}">
+    <!-- ==================== 顶部状态条 ==================== -->
+    <!-- ==================== 顶部状态条（配送5步同步）==================== -->
+    <view class="status-bar status-{{order.delivery_type === 'delivery' && order.delivery_status ? order.delivery_status : order.status}}">
+      <view class="status-icon">
+        <text wx:if="{{order.status === 'completed'}}">✅</text>
+        <text wx:elif="{{order.status === 'cancelled'}}">❌</text>
+        <text wx:elif="{{order.status === 'pending'}}">⏱</text>
+        <text wx:elif="{{order.delivery_type === 'delivery' && order.delivery_status}}">🚴</text>
+        <text wx:else>📦</text>
+      </view>
+      <view class="status-info">
+        <text class="status-name" wx:if="{{order.delivery_type === 'delivery' && order.delivery_status}}">{{statusText[order.delivery_status]}}</text>
+        <text class="status-name" wx:else>{{statusText[order.status]}}</text>
+        <text class="status-hint" wx:if="{{order.delivery_type === 'delivery' && order.delivery_status}}">{{statusHint[order.delivery_status]}}</text>
+        <text class="status-hint" wx:else>{{statusHint[order.status]}}</text>
+      </view>
+    </view>
+    <!-- ==================== 配送进度 ==================== -->
+    <view class="timeline-card" wx:if="{{order.delivery_type === 'delivery'}}">
+      <view class="timeline-title">配送进度</view>
+      <view class="timeline">
+        <view class="tl-item tl-{{item.color || 'gray'}} {{item.current ? 'current' : ''}}" wx:for="{{timelineSteps}}" wx:key="key">
+          <view class="tl-dot"></view>
+          <view class="tl-line" wx:if="{{index < timelineSteps.length - 1}}"></view>
+          <view class="tl-content">
+            <text class="tl-label">{{item.label}}</text>
+            <text class="tl-time" wx:if="{{item.time}}">{{item.time}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- ==================== 自提进度 ==================== -->
+    <view class="timeline-card" wx:if="{{order.delivery_type === 'self'}}">
+      <view class="timeline-title">取货进度</view>
+      <view class="timeline">
+        <view class="tl-item tl-{{item.color || 'gray'}} {{item.current ? 'current' : ''}}" wx:for="{{timelineSteps}}" wx:key="key">
+          <view class="tl-dot"></view>
+          <view class="tl-line" wx:if="{{index < timelineSteps.length - 1}}"></view>
+          <view class="tl-content">
+            <text class="tl-label">{{item.label}}</text>
+            <text class="tl-time" wx:if="{{item.time}}">{{item.time}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- ==================== 骑手信息（接单后动态显示） ==================== -->
+    <view class="info-card rider-card" wx:if="{{order.delivery_type === 'delivery' && order.rider_name}}">
+      <view class="card-header">
+        <text class="card-title">骑手信息</text>
+      </view>
+      <view class="rider-body">
+        <view class="rider-avatar">
+          <text>🦸</text>
+        </view>
+        <view class="rider-info">
+          <text class="rider-name">{{order.rider_name}}</text>
+          <text class="rider-phone">{{order.rider_phone}}</text>
+        </view>
+        <view class="rider-actions">
+          <view class="icon-btn" catchtap="callRider" data-phone="{{order.rider_phone}}">
+            <text>📞</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- ==================== 地图区域 ==================== -->
+    <view class="map-card" wx:if="{{order.delivery_type === 'delivery' && (order.store_lat || order.user_lat)}}">
+      <view class="map-header">
+        <text class="map-title">配送路线</text>
+        <text class="map-tip" wx:if="{{distance}}">距离 {{distance}}</text>
+      </view>
+      <map
+        id="deliveryMap"
+        class="order-map"
+        latitude="{{mapLat}}"
+        longitude="{{mapLng}}"
+        scale="14"
+        show-location
+        markers="{{markers}}"
+        polyline="{{polyline}}"
+        enable-poi
+      ></map>
+      <view class="map-legend">
+        <view class="legend-item">
+          <view class="legend-dot store-dot"></view>
+          <text>商家</text>
+        </view>
+        <view class="legend-item" wx:if="{{order.delivery_type === 'delivery' && order.rider_lat && order.delivery_status !== 'accepted'}}">
+          <view class="legend-dot rider-dot"></view>
+          <text>骑手</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-dot user-dot"></view>
+          <text>收货地</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- ==================== 商家信息 ==================== -->
+    <view class="info-card">
+      <view class="card-header">
+        <text class="card-title">商家信息</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">商家名称</text>
+        <text class="info-value">{{order.store_name}}</text>
+      </view>
+      <view class="info-row" wx:if="{{order.store_phone}}">
+        <text class="info-label">联系电话</text>
+        <view class="info-value-row">
+          <text class="info-value">{{order.store_phone}}</text>
+          <view class="icon-btn" catchtap="callStore" data-phone="{{order.store_phone}}">
+            <text>📞</text>
+          </view>
+        </view>
+      </view>
+      <view class="pickup-code" wx:if="{{order.delivery_type === 'self' && order.status !== 'cancelled'}}">
+        <text class="pickup-label">取货码</text>
+        <text class="pickup-value">{{pickupCode}}</text>
+      </view>
+    </view>
+
+    <!-- ==================== 收货信息 ==================== -->
+    <view class="info-card">
+      <view class="card-header">
+        <text class="card-title">{{order.delivery_type === 'self' ? '到店自提' : '收货信息'}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">{{order.delivery_type === 'self' ? '取货人' : '收货人'}}</text>
+        <text class="info-value">{{order.user_name}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">联系电话</text>
+        <view class="info-value-row">
+          <text class="info-value">{{order.user_phone}}</text>
+          <view class="icon-btn" catchtap="copyPhone" data-phone="{{order.user_phone}}">
+            <text>📋</text>
+          </view>
+        </view>
+      </view>
+      <view class="info-row" wx:if="{{order.address}}">
+        <text class="info-label">{{order.delivery_type === 'self' ? '门店地址' : '收货地址'}}</text>
+        <text class="info-value address-value">{{order.address}}</text>
+      </view>
+    </view>
+
+    <!-- ==================== 订单信息 ==================== -->
+    <view class="info-card">
+      <view class="card-header">
+        <text class="card-title">订单信息</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">订单编号</text>
+        <view class="info-value-row">
+          <text class="info-value order-no">{{order.order_no}}</text>
+          <view class="icon-btn" catchtap="copyOrderNo" data-no="{{order.order_no}}">
+            <text>📋</text>
+          </view>
+        </view>
+      </view>
+      <view class="info-row">
+        <text class="info-label">下单时间</text>
+        <text class="info-value">{{order.created_at}}</text>
+      </view>
+      <view class="info-row" wx:if="{{order.paid_at && order.status !== 'pending'}}">
+        <text class="info-label">支付时间</text>
+        <text class="info-value">{{order.paid_at}}</text>
+      </view>
+      <view class="product-list">
+        <view class="product-item" wx:for="{{order.items}}" wx:key="id">
+          <image src="{{item.image}}" mode="aspectFill" class="p-img"/>
+          <view class="p-detail">
+            <text class="p-name">{{item.name}}</text>
+            <text class="p-spec" wx:if="{{item.spec}}">{{item.spec}}</text>
+          </view>
+          <view class="p-right">
+            <text class="p-price">¥{{item.price}}</text>
+            <text class="p-count">x{{item.count}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="price-summary">
+        <view class="price-row">
+          <text class="price-label">商品金额</text>
+          <text class="price-value">¥{{order.total_price}}</text>
+        </view>
+        <view class="price-row" wx:if="{{order.delivery_fee > 0}}">
+          <text class="price-label">配送费</text>
+          <text class="price-value">¥{{order.delivery_fee}}</text>
+        </view>
+        <view class="price-row total-row">
+          <text class="price-label">实付金额</text>
+          <text class="price-value final-price">¥{{order.final_price}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- ==================== 底部操作栏 ==================== -->
+    <view class="bottom-bar" wx:if="{{order.status !== 'cancelled' && order.status !== 'completed'}}">
+      <view class="action-btn btn-cancel" wx:if="{{order.status === 'pending'}}" catchtap="cancelOrder">取消订单</view>
+      <view class="action-btn btn-pay" wx:if="{{order.status === 'pending'}}" catchtap="payOrder">去支付</view>
+      <view class="action-btn btn-confirm" wx:if="{{order.delivery_status === 'delivered'}}" catchtap="confirmReceive">确认收货</view>
+    </view>
+  </block>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:elif="{{!loading && !order}}">
+    <text>订单不存在</text>
+  </view>
+</view>

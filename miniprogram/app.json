@@ -1,0 +1,59 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/my/my",
+    "pages/cart/cart",
+    "pages/search/search",
+    "pages/order/order",
+    "pages/order-detail/order-detail",
+    "pages/product/product",
+    "pages/address/address",
+    "pages/map-picker/map-picker",
+    "pages/coupon/coupon",
+    "pages/receive-coupon/receive-coupon"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于计算配送距离和费用"
+    }
+  },
+  "requiredPrivateInfos": [
+    "chooseLocation",
+    "getLocation"
+  ],
+  "qqmap": {
+    "serviceAddress": "",
+    "comment": "本项目已迁移至高德地图，此配置已废弃"
+  },
+  "amap": {
+    "key": "c6bc075b823845754545a2572c27457b"
+  },
+  "window": {
+    "navigationBarTitleText": "桃之",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#e64340",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "images/my.png",
+        "selectedIconPath": "images/my-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

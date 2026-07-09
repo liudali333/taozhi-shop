@@ -1,0 +1,264 @@
+.address-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding-bottom: 160rpx;
+}
+
+/* 地址卡片 */
+.address-list {
+  padding: 20rpx;
+}
+
+.address-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.consignee {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.phone {
+  font-size: 28rpx;
+  color: #666;
+  margin-left: 20rpx;
+}
+
+.default-tag {
+  background: #e64340;
+  color: #fff;
+  font-size: 20rpx;
+  padding: 2rpx 12rpx;
+  border-radius: 6rpx;
+  margin-left: 16rpx;
+}
+
+.address-detail {
+  margin-bottom: 20rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.region {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.detail-addr {
+  font-size: 26rpx;
+  color: #999;
+  margin-top: 6rpx;
+}
+
+.card-actions {
+  display: flex;
+  gap: 30rpx;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.action-item image {
+  width: 28rpx;
+  height: 28rpx;
+  margin-right: 6rpx;
+}
+
+/* 空状态 */
+.empty-address {
+  text-align: center;
+  padding: 120rpx 0 60rpx;
+}
+
+.empty-address image {
+  width: 180rpx;
+  height: 180rpx;
+  margin-bottom: 30rpx;
+}
+
+.empty-address text {
+  display: block;
+  font-size: 28rpx;
+  color: #999;
+}
+
+.sub-tip {
+  font-size: 24rpx !important;
+  color: #bbb !important;
+  margin-top: 12rpx;
+}
+
+/* 新增按钮 */
+.add-btn-wrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx 30rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background: #fff;
+  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  background: #e64340;
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+}
+
+.add-btn image {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 12rpx;
+  filter: brightness(10);
+}
+
+/* 弹窗 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 500;
+}
+
+.modal-content {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  z-index: 501;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  position: relative;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.close-btn {
+  position: absolute;
+  right: 30rpx;
+  font-size: 48rpx;
+  color: #999;
+  line-height: 1;
+}
+
+.modal-body {
+  flex: 1;
+  padding: 30rpx;
+  overflow-y: auto;
+}
+
+.form-group {
+  margin-bottom: 30rpx;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+
+.form-input {
+  width: 100%;
+  height: 80rpx;
+  border: 2rpx solid #eee;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.form-textarea {
+  width: 100%;
+  height: 120rpx;
+  border: 2rpx solid #eee;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.locate-btn {
+  flex-shrink: 0;
+  width: 140rpx;
+  height: 120rpx;
+  background: #07c160;
+  color: #fff;
+  border: none;
+  border-radius: 12rpx;
+  font-size: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.picker-value {
+  height: 80rpx;
+  line-height: 80rpx;
+  border: 2rpx solid #eee;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.switch-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.switch-group .form-label {
+  margin-bottom: 0;
+}
+
+.modal-footer {
+  padding: 20rpx 30rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+}
+
+.save-btn {
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #e64340;
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+}

@@ -1,0 +1,33 @@
+<view class="coupon-page">
+  <!-- Tab -->
+  <view class="tabs">
+    <view class="tab {{tab === 'usable' ? 'active' : ''}}" bindtap="switchTab" data-tab="usable">可用</view>
+    <view class="tab {{tab === 'used' ? 'active' : ''}}" bindtap="switchTab" data-tab="used">已使用</view>
+    <view class="tab {{tab === 'expired' ? 'active' : ''}}" bindtap="switchTab" data-tab="expired">已过期</view>
+  </view>
+
+  <!-- 列表 -->
+  <view class="coupon-list" wx:if="{{list.length > 0}}">
+    <view class="coupon-item {{item.status !== 'usable' ? 'disabled' : ''}}" wx:for="{{list}}" wx:key="id">
+      <view class="coupon-left">
+        <text class="coupon-value">¥{{item.value}}</text>
+        <text class="coupon-condition">满{{item.min_amount}}可用</text>
+      </view>
+      <view class="coupon-right">
+        <text class="coupon-title">{{item.title}}</text>
+        <text class="coupon-time">{{item.start_time}} - {{item.end_time}}</text>
+      </view>
+      <view class="coupon-status" wx:if="{{item.status === 'used'}}">已使用</view>
+      <view class="coupon-status" wx:if="{{item.status === 'expired'}}">已过期</view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:if="{{list.length === 0 && !loading}}">
+    <image src="/images/order-empty.png" mode="aspectFit"></image>
+    <text>{{tab === 'usable' ? '暂无可用优惠券' : tab === 'used' ? '暂无已使用优惠券' : '暂无已过期优惠券'}}</text>
+  </view>
+
+  <!-- 底部占位 -->
+  <view class="bottom-placeholder"></view>
+</view>

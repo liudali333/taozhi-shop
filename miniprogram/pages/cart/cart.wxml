@@ -1,0 +1,101 @@
+<view class="cart-page">
+  <!-- 收货地址栏（取代原门店信息） -->
+  <view class="address-bar" catchtap="goAddress">
+    <view class="address-left">
+      <image src="/images/location.png" mode="aspectFit" class="address-icon"></image>
+      <view class="address-info" wx:if="{{selectedAddress}}">
+        <text class="address-name">{{selectedAddress.name}} {{selectedAddress.phone}}</text>
+        <text class="address-detail">{{selectedAddress.region}} {{selectedAddress.detail}}</text>
+      </view>
+      <view class="address-info" wx:else>
+        <text class="address-name">请添加收货地址</text>
+        <text class="address-detail">点击添加收货地址以便配送</text>
+      </view>
+    </view>
+    <image src="/images/arrow-right.png" mode="aspectFit" class="arrow-icon"></image>
+  </view>
+  
+  <!-- 配送范围提示 -->
+  <view class="range-tip" wx:if="{{deliveryType === 'delivery' && canDeliver === false && selectedAddress}}">
+    <text>⚠️ 当前位置超出配送范围（{{deliveryRadius}}km）</text>
+  </view>
+  
+  <!-- 商品列表 -->
+  <view class="cart-list" wx:if="{{cartList.length > 0}}">
+    <view class="cart-item" wx:for="{{cartList}}" wx:key="id">
+      <image class="item-img" src="{{item.image}}" mode="aspectFill"></image>
+      <view class="item-info">
+        <view class="item-name-row">
+          <text class="item-name">{{item.name}}</text>
+          <view class="delete-btn" catchtap="deleteItem" data-id="{{item.id}}">删除</view>
+        </view>
+        <text class="item-spec">{{item.spec}}</text>
+        <view class="item-bottom">
+          <text class="item-price">¥{{item.sale_price || item.price}}</text>
+          <view class="count-control">
+            <view class="btn-minus" catchtap="decrease" data-id="{{item.id}}">-</view>
+            <text class="count">{{item.count}}</text>
+            <view class="btn-plus" catchtap="increase" data-id="{{item.id}}">+</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 空购物车 -->
+  <view class="empty-cart" wx:else>
+    <image src="/images/cart-empty.png" mode="aspectFit"></image>
+    <text>{{showPay ? '订单已提交，请在下方完成支付' : '购物车是空的'}}</text>
+    <view class="go-shop" bindtap="goHome">{{showPay ? '继续购物' : '去逛逛'}}</view>
+  </view>
+  <view class="delivery-section" wx:if="{{cartList.length > 0}}">
+    <view class="section-title">配送方式</view>
+    <view class="delivery-options">
+      <view class="option {{deliveryType === 'self' ? 'active' : ''}}" catchtap="selectDelivery" data-type="self">
+        <image src="/images/self.png" mode="aspectFit"></image>
+        <text>上门自提</text>
+        <text class="tip">到店取货，免配送费</text>
+      </view>
+      <view class="option {{deliveryType === 'delivery' ? 'active' : ''}} {{canDeliver === false ? 'disabled' : ''}}" catchtap="selectDelivery" data-type="delivery">
+        <image src="/images/delivery.png" mode="aspectFit"></image>
+        <text>跑腿配送</text>
+        <!-- 配送费仅在地址位于配送范围内时显示 -->
+        <text class="tip" wx:if="{{canDeliver === true}}">配送费 ¥{{deliveryFee}}<text wx:if="{{minOrderAmount > 0}}"> · 起送¥{{minOrderAmount}}</text></text>
+        <text class="tip tip-warn" wx:elif="{{canDeliver === false}}">超出配送范围</text>
+        <text class="tip" wx:else>请选择收货地址</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 备注 -->
+  <view class="remark-section" wx:if="{{cartList.length > 0}}">
+    <view class="section-title">订单备注</view>
+    <input class="remark-input" placeholder="如有特殊需求，请备注" bindinput="inputRemark" value="{{remark}}" />
+  </view>
+  
+  <!-- 底部结算 -->
+  <view class="bottom-bar safe-bottom" wx:if="{{cartList.length > 0 && !showPay}}">
+    <view class="total-info">
+      <text class="total-label">合计</text>
+      <text class="total-price">¥{{finalPrice}}</text>
+    </view>
+    <view class="checkout-btn {{!isOpen || paying || !minMet ? 'btn-disabled' : ''}}" bindtap="{{isOpen && !paying && minMet ? 'goPay' : ''}}">
+      {{paying ? '支付中...' : (isOpen ? (minMet ? '支付' : '还差¥' + diffAmount + '起送') : '休息中')}}
+    </view>
+  </view>
+
+  <!-- 底部支付栏（订单已创建但用户取消微信支付时显示） -->
+  <view class="pay-bar safe-bottom" wx:if="{{showPay}}">
+    <view class="pay-info">
+      <text class="pay-label">待支付</text>
+      <text class="pay-amount">¥{{payAmount}}</text>
+    </view>
+    <view class="pay-actions">
+      <view class="pay-later" bindtap="cancelPay">取消</view>
+      <view class="pay-btn {{paying ? 'btn-disabled' : ''}}" bindtap="{{!paying ? 'wxPay' : ''}}">
+        <text class="pay-icon">¥</text>
+        <text>{{paying ? '支付中...' : '微信支付'}}</text>
+      </view>
+    </view>
+  </view>
+</view>

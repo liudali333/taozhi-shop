@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "选择位置",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "需要获取您的位置用于地图定位"
+    }
+  }
+}

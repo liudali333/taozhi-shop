@@ -1,0 +1,171 @@
+﻿<view class="home">
+  <!-- 顶部门店栏 -->
+  <view class="location-bar-top">
+    <image class="location-icon" src="/images/store.png" mode="aspectFit"></image>
+    <text class="location-text">{{storeName}}</text>
+    <view class="open-status {{isOpen ? 'open' : 'closed'}}">
+      {{isOpen ? '营业中' : '休息中'}}
+    </view>
+  </view>
+
+  <!-- 公告栏 -->
+  <view class="notice-bar" wx:if="{{storeNotice}}">
+    <text>{{storeNotice}}</text>
+  </view>
+
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrap" bindtap="goToSearch">
+      <image class="search-icon" src="/images/search.png" mode="aspectFit"></image>
+      <input class="search-input" placeholder="搜索商品名称/分类/货号" disabled />
+    </view>
+  </view>
+
+  <!-- 内容区 -->
+  <view class="content-area">
+    <!-- 左侧分类栏（树形结构） -->
+    <scroll-view class="category-sidebar" scroll-y="true">
+      <view
+        wx:for="{{categoriesL1}}"
+        wx:key="id"
+        class="category-group"
+      >
+        <!-- 一级分类 -->
+        <view
+          class="category-l1-item {{expandedCategoryId == item.id ? 'expanded' : ''}} {{currentCategoryId == item.id && !currentCategoryL2 ? 'active' : ''}}"
+          bindtap="selectCategory"
+          data-id="{{item.id}}"
+          data-name="{{item.name}}"
+          data-has-l2="{{categoriesHasL2[item.id]}}"
+        >
+          <text class="l1-name">{{item.name}}</text>
+          <text class="l1-arrow" wx:if="{{categoriesHasL2[item.id]}}">
+            {{expandedCategoryId == item.id ? '▼' : '▶'}}
+          </text>
+        </view>
+
+        <!-- 二级分类（内嵌在一级分类下面） -->
+        <view
+          wx:if="{{expandedCategoryId == item.id && categoriesHasL2[item.id]}}"
+          class="category-l2-wrap"
+        >
+          <view
+            wx:for="{{categoriesL2Map[item.id]}}"
+            wx:key="id"
+            class="category-l2-item {{currentCategoryId == item.id ? 'active' : ''}}"
+            bindtap="selectL2Category"
+            data-id="{{item.id}}"
+            data-l1-id="{{expandedCategoryId}}"
+            data-l2-name="{{item.name}}"
+          >
+            <text class="l2-text">{{item.name}}</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <!-- 右侧商品区 -->
+    <scroll-view class="product-area" scroll-y="true" bindscrolltolower="loadMore">
+      <!-- 轮播海报 -->
+      <swiper class="banner-swiper" indicator-dots autoplay circular wx:if="{{hasBanners}}">
+        <swiper-item wx:for="{{banners}}" wx:key="id">
+          <image class="banner-img" src="{{item.image}}" mode="aspectFill" bindtap="onBannerTap" data-url="{{item.link}}"></image>
+        </swiper-item>
+      </swiper>
+
+      <!-- 当前分类提示 -->
+      <view class="category-tip" wx:if="{{currentCategoryL1}}">
+        <text>{{currentCategoryL1}}{{currentCategoryL2 ? ' / ' + currentCategoryL2 : ''}}</text>
+        <text class="tip-count">共 {{products.length}} 件商品</text>
+      </view>
+
+      <!-- 空状态 -->
+      <view class="empty-state" wx:if="{{isProductsEmpty && !loading}}">
+        <image src="/images/empty.png" mode="aspectFit" class="empty-img"></image>
+        <text class="empty-text">暂无商品</text>
+      </view>
+
+      <!-- 商品列表 -->
+      <view class="product-list">
+        <view
+          wx:for="{{products}}"
+          wx:key="id"
+          class="product-item {{item.stock <= 0 ? 'out-of-stock' : ''}}"
+          bindtap="goToProduct"
+          data-id="{{item.id}}"
+        >
+          <!-- 商品图片 -->
+          <view class="product-img-wrap">
+            <image class="product-img" src="{{item.image}}" mode="aspectFill"></image>
+            <!-- 缺货标记 -->
+            <view class="stock-out-tag" wx:if="{{item.stock <= 0}}">已售罄</view>
+            <!-- 折扣标签 -->
+            <view class="discount-tag" wx:if="{{item.sale_price && item.sale_price < item.price}}">
+              省¥{{item.discountAmount}}
+            </view>
+          </view>
+
+          <!-- 商品信息 -->
+          <view class="product-info">
+            <view class="product-name">{{item.name}}</view>
+            <view class="product-spec">{{item.spec}}</view>
+            <!-- 一级/二级分类标签 -->
+            <view class="product-tags" wx:if="{{item.category_l2}}">
+              <text class="tag-l1">{{item.category_l1}}</text>
+              <text class="tag-sep">/</text>
+              <text class="tag-l2">{{item.category_l2}}</text>
+            </view>
+            <view class="product-tags" wx:elif="{{item.category_l1}}">
+              <text class="tag-l1">{{item.category_l1}}</text>
+            </view>
+
+            <view class="product-bottom">
+              <!-- 价格 -->
+              <view class="price-wrap">
+                <text class="sale-price">¥{{item.sale_price}}</text>
+                <text class="orig-price" wx:if="{{item.sale_price < item.price}}">¥{{item.price}}</text>
+              </view>
+              <!-- 加购按钮 -->
+              <view class="add-cart-btn {{item.stock <= 0 ? 'disabled' : ''}}" catchtap="addToCart" data-product="{{item}}">
+                <image src="/images/add.png" mode="aspectFit"></image>
+              </view>
+            </view>
+
+            <!-- 库存提示 -->
+            <view class="stock-tip" wx:if="{{item.stock > 0 && item.stock <= 5}}">
+              仅剩 {{item.stock}} 件
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 加载更多 -->
+      <view class="load-more" wx:if="{{hasMore && !loadingMore}}">
+        <text>上拉加载更多</text>
+      </view>
+      <view class="load-more loading" wx:if="{{loadingMore}}">
+        <text>加载中...</text>
+      </view>
+      <view class="load-more done" wx:if="{{!hasMore && hasProducts}}">
+        <text>— 已加载全部 {{products.length}} 件商品 —</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 底部购物篮 -->
+  <view class="cart-bar safe-bottom" bindtap="goToCart">
+    <view class="cart-left">
+      <view class="cart-icon-wrap">
+        <image class="cart-icon" src="/images/cart.png" mode="aspectFit"></image>
+        <view class="cart-badge" wx:if="{{cartCount > 0}}">{{cartCount > 99 ? '99+' : cartCount}}</view>
+      </view>
+      <view class="cart-info">
+        <text class="cart-store">{{storeName}}</text>
+        <text class="cart-total">¥{{cartTotal}}</text>
+      </view>
+    </view>
+    <view class="cart-right">
+      去结算
+    </view>
+  </view>
+</view>

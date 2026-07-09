@@ -1,0 +1,44 @@
+<view class="receive-page">
+  <!-- 优惠券信息 -->
+  <view class="coupon-card" wx:if="{{coupon}}">
+    <view class="coupon-left">
+      <text class="coupon-value">¥{{coupon.value}}</text>
+      <text class="coupon-condition">满{{coupon.min_amount}}可用</text>
+    </view>
+    <view class="coupon-right">
+      <text class="coupon-title">{{coupon.title}}</text>
+      <text class="coupon-time">有效期：{{coupon.start_time}} 至 {{coupon.end_time}}</text>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 错误 -->
+  <view class="error" wx:if="{{error && !loading}}">
+    <text>{{error}}</text>
+    <button class="retry-btn" bindtap="retry">重试</button>
+  </view>
+
+  <!-- 自动领取进行中（来自二维码） -->
+  <view class="auto-claiming" wx:if="{{autoClaim && claiming && !received}}">
+    <view class="spin"></view>
+    <text>正在为您领取…</text>
+  </view>
+
+  <!-- 手动领取按钮（用户主动进入时） -->
+  <button class="receive-btn" wx:if="{{coupon && !received && !loading && !claiming && !autoClaim}}"
+          bindtap="receiveCoupon">
+    立即领取
+  </button>
+
+  <!-- 已领取 -->
+  <view class="received" wx:if="{{received}}">
+    <image src="/images/success.png" mode="aspectFit"></image>
+    <text>领取成功！</text>
+    <text class="received-tip">优惠券已存入「我的-优惠券」</text>
+    <button class="go-use-btn" bindtap="goUse">去使用</button>
+  </view>
+</view>

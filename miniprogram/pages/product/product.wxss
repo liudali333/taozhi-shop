@@ -1,0 +1,243 @@
+/* pages/product/product.wxss */
+.product-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+}
+
+.product-swiper {
+  height: 750rpx;
+  background: #fff;
+}
+.product-main-img {
+  width: 100%;
+  height: 100%;
+  background: #f5f5f7;
+}
+
+/* 价格区域 */
+.price-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+.price-left {
+  display: flex;
+  align-items: baseline;
+  gap: 12rpx;
+}
+.sale-price {
+  font-size: 52rpx;
+  color: #e64340;
+  font-weight: 700;
+}
+.orig-price {
+  font-size: 28rpx;
+  color: #bbb;
+  text-decoration: line-through;
+}
+.discount-badge {
+  background: #fff0f0;
+  color: #e64340;
+  font-size: 22rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  font-weight: 500;
+}
+.stock-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4rpx;
+}
+.stock-status {
+  font-size: 24rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+  font-weight: 500;
+}
+.stock-status.available {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+.stock-status.soldout {
+  background: #f5f5f5;
+  color: #999;
+}
+.stock-count {
+  font-size: 22rpx;
+  color: #ff9800;
+}
+
+/* 商品主体 */
+.product-main {
+  padding: 24rpx 32rpx;
+  background: #fff;
+  margin-bottom: 16rpx;
+}
+.product-name {
+  font-size: 32rpx;
+  color: #222;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 8rpx;
+}
+.product-spec {
+  font-size: 26rpx;
+  color: #888;
+  margin-bottom: 12rpx;
+}
+.category-tags {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  margin-top: 8rpx;
+}
+.cat-tag {
+  font-size: 22rpx;
+  color: #e64340;
+  background: #fff0f0;
+  padding: 2rpx 12rpx;
+  border-radius: 4rpx;
+}
+.cat-tag.sub {
+  color: #666;
+  background: #f5f5f5;
+}
+.cat-sep {
+  color: #ddd;
+  font-size: 22rpx;
+}
+
+/* 信息卡片 */
+.info-card {
+  background: #fff;
+  padding: 24rpx 32rpx;
+  margin-bottom: 16rpx;
+}
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+.info-row {
+  display: flex;
+  align-items: center;
+  padding: 14rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+  font-size: 26rpx;
+}
+.info-row:last-child {
+  border-bottom: none;
+}
+.info-label {
+  color: #999;
+  width: 180rpx;
+  flex-shrink: 0;
+}
+.info-value {
+  color: #333;
+  flex: 1;
+  word-break: break-all;
+}
+.info-value.red {
+  color: #e64340;
+  font-weight: 600;
+}
+
+/* 描述 */
+.desc-content {
+  font-size: 28rpx;
+  color: #555;
+  line-height: 1.7;
+}
+.desc-content.empty {
+  color: #999;
+  text-align: center;
+  padding: 32rpx 0;
+}
+.detail-img {
+  width: 100%;
+  display: block;
+  margin-bottom: 8rpx;
+  background: #f9f9f9;
+}
+
+/* 底部操作栏 */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 16rpx 32rpx;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -2rpx 12rpx rgba(0,0,0,0.06);
+  z-index: 100;
+}
+.action-icons {
+  display: flex;
+  gap: 32rpx;
+}
+.icon-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.icon-item image {
+  width: 48rpx;
+  height: 48rpx;
+}
+.icon-item text {
+  font-size: 20rpx;
+  color: #666;
+  margin-top: 2rpx;
+}
+.badge {
+  position: absolute;
+  top: -8rpx;
+  right: -16rpx;
+  background: #e64340;
+  color: #fff;
+  font-size: 18rpx;
+  min-width: 30rpx;
+  height: 30rpx;
+  border-radius: 15rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4rpx;
+  font-weight: 600;
+}
+.action-buttons {
+  display: flex;
+  margin-left: auto;
+}
+.btn-add-cart,
+.btn-buy-now {
+  padding: 20rpx 36rpx;
+  font-size: 28rpx;
+}
+.btn-add-cart {
+  background: #ff9500;
+  color: #fff;
+  border-radius: 40rpx 0 0 40rpx;
+}
+.btn-add-cart.disabled {
+  background: #ccc;
+}
+.btn-buy-now {
+  background: #e64340;
+  color: #fff;
+  border-radius: 0 40rpx 40rpx 0;
+}
+.btn-buy-now.disabled {
+  background: #bbb;
+}

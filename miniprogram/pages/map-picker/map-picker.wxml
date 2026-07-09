@@ -1,0 +1,21 @@
+<view class="map-picker-page">
+  <!-- 地图 -->
+  <map id="pickerMap" class="picker-map" latitude="{{latitude}}" longitude="{{longitude}}" scale="{{scale}}" markers="{{markers}}" bindregionchange="onRegionChange" show-location></map>
+  
+  <!-- 中心标记（固定不动，地图移动） -->
+  <view class="center-marker">
+    <image src="/images/location.png" mode="aspectFit" class="marker-icon"></image>
+  </view>
+  
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar safe-bottom">
+    <view class="current-addr">
+      <text class="addr-label">当前位置</text>
+      <text class="addr-text">{{addressName || '拖动地图选择位置'}}</text>
+    </view>
+    <view class="btn-group">
+      <button class="btn-cancel" bindtap="onCancel">取消</button>
+      <button class="btn-confirm" bindtap="onConfirm">确定</button>
+    </view>
+  </view>
+</view>
